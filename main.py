@@ -1,7 +1,13 @@
-import fastapi
+from fastapi import FastAPI
+from routes import user_routes
+from db import Base, engine
+import models  # ensure models are registered with Base
 
+Base.metadata.create_all(bind=engine)
 
-app = fastapi.FastAPI()
+app = FastAPI()
+
+app.include_router(user_routes.router)
 
 @app.get("/")
 def read_root():
